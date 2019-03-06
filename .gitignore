@@ -1,0 +1,4 @@
+# makepkg generated
+pkg/
+src/
+releng-tool*

@@ -1,0 +1,9 @@
+maintainers:
+  - github: jdknight
+    email: James Knight <james.d.knight@live.com>
+
+depends:
+  - python
+
+update_on:
+  - aur: releng-tool
