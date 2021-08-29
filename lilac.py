@@ -1,3 +1,0 @@
-# lilac
-
-from lilaclib import *
