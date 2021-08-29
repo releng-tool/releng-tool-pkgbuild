@@ -1,4 +1,7 @@
-# makepkg generated
+# makepkg generated build/srcs
 pkg/
 src/
-releng-tool*
+releng-tool*/
+
+# makepkg output
+*.zst
