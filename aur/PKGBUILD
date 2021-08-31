@@ -3,7 +3,7 @@
 pkgbase=releng-tool
 pkgname=(releng-tool python2-releng-tool)
 pkgver=0.9.0.dev0
-_pkgtarget=commit=aaf67120d70b0c667ae430cc70af59728b1c9cea # tmp: tag=v$pkgver
+_pkgtarget=commit=3d86ec264a219e66c4226d4d23f7762c37ff8e1d # tmp: tag=v$pkgver
 pkgrel=1
 pkgdesc='Tool to assist in the release engineering of a project'
 url=https://releng.io/
@@ -13,11 +13,23 @@ makedepends=(
   git
   python-setuptools
   python2-setuptools
+  sed
 )
 optdepends=(
-  'bash-completion: autocomplete for bash'
-  'fish: autocomplete for fish'
-  'zsh-completions: autocomplete for zsh'
+  'autoconf: support for autotools package management'
+  'bash-completion: shell completion for bash'
+  'bzr: supporting for Bazaar cloning'
+  'cmake: support for CMake package management'
+  'cvs: supporting for CVS checkouts'
+  'fish: shell completion for fish'
+  'git: support for Git cloning'
+  'gpg: support for GPG verification of downloaded packages'
+  'hg: support for Mercurial cloning'
+  'make: support for building make-dependent packages'
+  'patch: support for patching package sources'
+  'scp: support for secure-copy fetching of sources'
+  'svn: supporting for Subversion checkouts'
+  'zsh-completions: shell completion for zsh'
 )
 source=($pkgname-$pkgver::git+https://github.com/releng-tool/releng-tool.git#$_pkgtarget)
 sha512sums=(SKIP)
@@ -40,10 +52,10 @@ build() {
 
 check() {
   cd "$srcdir/$pkgbase-$pkgver"
-  python setup.py test --test-suite tests.unit-tests
+  PYTHONDONTWRITEBYTECODE=1 python -m tests || warning "python tests failed"
 
   cd "$srcdir/$pkgbase-$pkgver-py2"
-  python2 setup.py test --test-suite tests.unit-tests
+  PYTHONDONTWRITEBYTECODE=1 python2 -m tests || warning "python2 tests failed"
 }
 
 package_releng-tool() {
@@ -79,13 +91,14 @@ package_python2-releng-tool() {
     "$pkgdir/usr/share/zsh/site-functions/_$pkgname"
   install -vDm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 
-  local completion_scripts=(
+  local _completion_script
+  local _completion_scripts=(
     "$pkgdir/usr/share/bash-completion/completions/$pkgname"
     "$pkgdir/usr/share/fish/completions/$pkgname.fish"
     "$pkgdir/usr/share/zsh/site-functions/_$pkgname"
   )
-  for completion_script in ${completion_scripts[*]}; do
-      sed -i s/releng-tool/$pkgname/ "$completion_script"
-      sed -i s/_releng_tool/_releng_tool_py2/ "$completion_script"
+  for _completion_script in ${_completion_scripts[*]}; do
+      sed -i s/releng-tool/$pkgname/ "$_completion_script"
+      sed -i s/_releng_tool/_releng_tool_py2/ "$_completion_script"
   done
 }
