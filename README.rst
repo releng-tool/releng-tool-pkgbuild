@@ -2,7 +2,11 @@ releng-tool pkgbuild
 ====================
 
 This repository manages a PKGBUILD_ definition used to prepare a releng-tool
-release for an Arch Linux system.
+release for an Arch Linux system. The ``aur`` directory is synchronized with
+this project's AUR package:
+
+ | Arch User Repository - releng-tool
+ | https://aur.archlinux.org/packages/releng-tool/
 
 commands
 --------
